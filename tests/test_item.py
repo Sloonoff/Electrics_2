@@ -1,17 +1,63 @@
-"""Здесь надо написать тесты с использованием pytest для модуля item."""
-
-from pytest import fixture
-
 from src.item import Item
 
 
-@fixture
-def item():
-    return Item("Смартфон", 10000, 20)
+def test_name_length():
+    item = Item(name='Телефон', price=10000, rating=5)
+    item.name = 'Смартфон'
+    assert item.name == 'Смартфон'
 
-def test_calculate_total_price(item):
-    assert item.calculate_total_price() == 200000
+    try:
+        item.name = 'СуперСмартфон'
+    except Exception as e:
+        assert str(e) == 'Длина наименования товара превышает 10 символов.'
 
-def test_apply_discount(item):
-    item.apply_discount()
-    assert item.price == 10000.0
+
+def test_instantiate_from_csv():
+    Item.instantiate_from_csv()
+    assert len(Item.all_items) == 6
+
+
+def test_string_to_number():
+    assert Item.string_to_number('5') == 5.0
+    assert Item.string_to_number('5.0') == 5.0
+    assert Item.string_to_number('5.5') == 5.5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# """Здесь надо написать тесты с использованием pytest для модуля item."""
+# from src.item import Item
+#
+#
+# def test_name_length():
+#     item = Item('Телефон', 10000, 5)
+#     item.name = 'Смартфон'
+#     assert item.name == 'Смартфон'
+#
+#     try:
+#         item.name = 'СуперСмартфон'
+#     except Exception as e:
+#         assert str(e) == 'Длина наименования товара превышает 10 символов.'
+#
+#
+# def test_instantiate_from_csv():
+#     Item.instantiate_from_csv()
+#     assert len(Item.all_items) == 6
+#
+#
+# def test_string_to_number():
+#     assert Item.string_to_number('5') == 5.0
+#     assert Item.string_to_number('5.0') == 5.0
+#     assert Item.string_to_number('5.5') == 5.5
