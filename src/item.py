@@ -1,41 +1,35 @@
-from src.item import Item
+class Item:
+    """
+    Класс для представления товара в магазине.
+    """
+    pay_rate = 1.0
+    all = []
 
-def test_item_repr():
-    item1 = Item("Смартфон", 10000, 20)
-    assert repr(item1) == "Item('Смартфон', 10000, 20)"
+    def __init__(self, name: str, price: float, quantity: int) -> None:
+        """
+        Создание экземпляра класса item.
 
-def test_item_str():
-    item1 = Item("Смартфон", 10000, 20)
-    assert str(item1) == 'Смартфон'
+        :param name: Название товара.
+        :param price: Цена за единицу товара.
+        :param quantity: Количество товара в магазине.
+        """
+        self.name = name
+        self.price = price
+        self.quantity = quantity
 
-def test_name_length():
-    item = Item('Телефон', 10000, 5)
-    item.name = 'Смартфон'
-    assert item.name == 'Смартфон'
-    try:
-        item.name = 'СуперСмартфон'
-    except Exception as e:
-        assert str(e) == 'Длина наименования товара превышает 10 символов.'
+    def calculate_total_price(self) -> float:
+        """
+        Рассчитывает общую стоимость конкретного товара в магазине.
 
-def test_instantiate_from_csv():
-    Item.instantiate_from_csv("items.csv")
-    assert len(Item.all_items) == 6
+        :return: Общая стоимость товара.
+        """
+        return self.price * self.quantity
 
-def test_string_to_number():
-    assert Item.string_to_number('5') == 5.0
-    assert Item.string_to_number('5.0') == 5.0
-    assert Item.string_to_number('5.5') == 5.5
-
-def test_item():
-    item1 = Item("Смартфон", 10000, 20)
-    item2 = Item("Ноутбук", 20000, 5)
-    assert item1.calculate_total_price() == 200000
-    assert item2.calculate_total_price() == 100000
-    Item.set_pay_rate(0.8)
-    item1.apply_discount()
-    assert item1.price == 8000.0
-    assert item2.price == 20000
-    assert Item.get_all_items() == [item1, item2]
+    def apply_discount(self) -> None:
+        """
+        Применяет установленную скидку для конкретного товара.
+        """
+        self.price *= self.pay_rate
 
 
 
@@ -58,65 +52,250 @@ def test_item():
 
 
 
-# """Здесь надо написать тесты с использованием pytest для модуля item.""" Дз_3
-# from src.item import Item
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import csv   Дз_4
 #
-# def test_item_repr():
-#     item1 = Item("Смартфон", 10000, 20)
-#     assert repr(item1) == "Item('Смартфон', 10000, 20)"
+# class Item:
+#     """
+#     Класс для представления товара в магазине.
+#     """
+#     pay_rate = 1
+#     all_items = []
 #
-# def test_item_str():
-#     item1 = Item("Смартфон", 10000, 20)
-#     assert str(item1) == 'Смартфон'
+#     def __init__(self, name: str, price: float, quantity: int) -> None:
+#         """
+#         Создание экземпляра класса item.
 #
+#         :param name: Название товара.
+#         :param price: Цена за единицу товара.
+#         :param quantity: Количество товара в магазине.
+#         """
+#         self._name = name
+#         self.price = price
+#         self.quantity = quantity
+#         self.all_items.append(self)
 #
+#     def __add__(self, other):
+#         return Item(self.name + " и " + other.name, self.price + other.price, self.quantity + other.quantity)
 #
+#     @property
+#     def name(self):
+#         return self._name
 #
-#  """Здесь надо написать тесты с использованием pytest для модуля item.""" Дз_2
-#  from src.item import Item
+#     @name.setter
+#     def name(self, value):
+#         if len(value) > 10:
+#             raise Exception('Длина наименования товара превышает 10 символов.')
+#         self._name = value
 #
-# def test_name_length():
-#     item = Item('Телефон', 10000, 5)
-#     item.name = 'Смартфон'
-#     assert item.name == 'Смартфон'
+#     def calculate_total_price(self) -> float:
+#         """
+#         Рассчитывает общую стоимость конкретного товара в магазине.
+#         :return: Общая стоимость товара.
+#         """
+#         return self.price * self.quantity
 #
-#     try:
-#         item.name = 'СуперСмартфон'
-#     except Exception as e:
-#         assert str(e) == 'Длина наименования товара превышает 10 символов.'
+#     def apply_discount(self) -> None:
+#         """
+#         Применяет установленную скидку для конкретного товара.
+#         """
+#         self.price *= self.pay_rate
 #
-# def test_instantiate_from_csv():
-#     Item.instantiate_from_csv()
-#     assert len(Item.all_items) == 6
+#     def __repr__(self):
 #
-# def test_string_to_number():
-#     assert Item.string_to_number('5') == 5.0
-#     assert Item.string_to_number('5.0') == 5.0
-#     assert Item.string_to_number('5.5') == 5.5
+#         return f"Item('{self.name}', {self.price}, {self.quantity})"
+#
+#     def __str__(self):
+#         return self.name
+#
+#     @classmethod
+#     def set_pay_rate(cls, pay_rate):
+#         cls.pay_rate = pay_rate
+#
+#     @classmethod
+#     def get_all_items(cls):
+#         return cls.all_items
+#
+#     @classmethod
+#     def instantiate_from_csv(cls, path):
+#         with open(path, newline='') as csvfile:
+#             reader = csv.DictReader(csvfile)
+#             for row in reader:
+#                 item = cls(row['name'], float(row['price']), int(row['quantity']))
+#
+#     @staticmethod
+#     def string_to_number(string):
+#         return float(string)
 
 
 
 
-
-
-
-
-
-# """Здесь надо написать тесты с использованием pytest для модуля item.""" ДЗ_1
-# from src.item import Item
+# class Item:     Дз_3
+#     """
+#     Класс для представления товара в магазине.
+#     """
+#     pay_rate = 1.0
+#     all = []
+#
+#     def __init__(self, name: str, price: float, quantity: int) -> None:
+#         """
+#         Создание экземпляра класса item.
+#
+#         :param name: Название товара.
+#         :param price: Цена за единицу товара.
+#         :param quantity: Количество товара в магазине.
+#         """
+#         self.name = name
+#         self.price = price
+#         self.quantity = quantity
+#
+#     def calculate_total_price(self) -> float:
+#         """
+#         Рассчитывает общую стоимость конкретного товара в магазине.
+#
+#         :return: Общая стоимость товара.
+#         """
+#         total_price = self.price * self.quantity
+#         return total_price
+#
+#     def apply_discount(self) -> None:
+#         """
+#         Применяет установленную скидку для конкретного товара.
+#         """
+#         self.price = self.price * (1 - self.pay_rate)
+#
+#     def __repr__(self):
+#         return f"Item('{self.name}', {self.price}, {self.quantity})"
+#
+#     def __str__(self):
+#         return self.name
 #
 #
-# def test_item():
-#     item1 = Item("Смартфон", 10000, 20)
-#     item2 = Item("Ноутбук", 20000, 5)
 #
-#     assert item1.calculate_total_price() == 200000
-#     assert item2.calculate_total_price() == 100000
 #
-#     Item.set_pay_rate(0.8)
-#     item1.apply_discount()
+# import csv     Дз_2
 #
-#     assert item1.price == 8000.0
-#     assert item2.price == 20000
+# class Item:
+#     """
+#     Класс для представления товара в магазине.
+#     """
+#     pay_rate = 1
+#     all_items = []
 #
-#     assert Item.get_all_items() == [item1, item2]
+#     def __init__(self, name: str, price: float, quantity: int) -> None:
+#         """
+#         Создание экземпляра класса item.
+#
+#         :param name: Название товара.
+#         :param price: Цена за единицу товара.
+#         :param quantity: Количество товара в магазине.
+#         """
+#         self._name = name
+#         self.price = price
+#         self.quantity = quantity
+#         self.all_items.append(self)
+#
+#     @property
+#     def name(self):
+#         return self._name
+#
+#     @name.setter
+#     def name(self, value):
+#         if len(value) > 10:
+#             raise Exception('Длина наименования товара превышает 10 символов.')
+#         self._name = value
+#
+#     def calculate_total_price(self) -> float:
+#         """
+#         Рассчитывает общую стоимость конкретного товара в магазине.
+#
+#         :return: Общая стоимость товара.
+#         """
+#         return self.price * self.quantity
+#
+#     def apply_discount(self) -> None:
+#         """
+#         Применяет установленную скидку для конкретного товара.
+#         """
+#         self.price *= self.pay_rate
+#
+#     @classmethod
+#     def set_pay_rate(cls, pay_rate):
+#         cls.pay_rate = pay_rate
+#
+#     @classmethod
+#     def get_all_items(cls):
+#         return cls.all_items
+#
+#     @classmethod
+#     def instantiate_from_csv(cls):
+#         with open('src/items.csv', newline='') as csvfile:
+#             reader = csv.DictReader(csvfile)
+#             for row in reader:
+#                 item = cls(row['name'], float(row['price']), int(row['quantity']))
+#
+#     @staticmethod
+#     def string_to_number(string):
+#         return float(string)
+#
+#
+#
+# class Item:    Дз_1
+#     """
+#     Класс для представления товара в магазине.
+#     """
+#     pay_rate = 1
+#     all_items = []
+#
+#     def __init__(self, name: str, price: float, quantity: int) -> None:
+#         """
+#         Создание экземпляра класса item.
+#
+#         :param name: Название товара.
+#         :param price: Цена за единицу товара.
+#         :param quantity: Количество товара в магазине.
+#         """
+#         self.name = name
+#         self.price = price
+#         self.quantity = quantity
+#         self.all_items.append(self)
+#
+#     def calculate_total_price(self) -> float:
+#         """
+#         Рассчитывает общую стоимость конкретного товара в магазине.
+#
+#         :return: Общая стоимость товара.
+#         """
+#         return self.price * self.quantity
+#
+#     def apply_discount(self) -> None:
+#         """
+#         Применяет установленную скидку для конкретного товара.
+#         """
+#         self.price *= self.pay_rate
+#
+#     @classmethod
+#     def set_pay_rate(cls, pay_rate):
+#         cls.pay_rate = pay_rate
+#
+#     @classmethod
+#     def get_all_items(cls):
+#         return cls.all_items
