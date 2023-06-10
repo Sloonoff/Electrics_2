@@ -15,6 +15,7 @@
         self.quantity = quantity
 
     def __str__(self) -> str:
+
         """
         Возвращает название товара.
 
