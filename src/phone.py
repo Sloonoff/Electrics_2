@@ -19,7 +19,7 @@ class Phone(Item):
         self.__number_of_sim = number_of_sim
 
     def __add__(self, other):
-        return Item(self.name + " и " + other.name, self.price + other.price, self.quantity + other.quantity)
+        return super().__add__(other)
 
     @property
     def number_of_sim(self):
@@ -34,40 +34,6 @@ class Phone(Item):
 
     def __repr__(self):
         return f"{__class__.__name__}('{self.name}', {self.price}, {self.quantity}, {self.__number_of_sim})"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     # from src.item import Item
 #
