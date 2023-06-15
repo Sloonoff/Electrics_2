@@ -53,8 +53,7 @@ class Item:
     def __str__(self):
         return self.name
 
-    def __add__(self, other):
-        return self + other
+
 
     @classmethod
     def set_pay_rate(cls, pay_rate):

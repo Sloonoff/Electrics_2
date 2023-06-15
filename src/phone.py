@@ -19,7 +19,7 @@ class Phone(Item):
         self.__number_of_sim = number_of_sim
 
     def __add__(self, other):
-        return self + other
+        return Item(self.name + " и " + other.name, self.price + other.price, self.quantity + other.quantity)
 
     @property
     def number_of_sim(self):
