@@ -18,6 +18,9 @@ class Phone(Item):
         super().__init__(name, price, quantity)
         self.__number_of_sim = number_of_sim
 
+    def __add__(self, other):
+        return self + other
+
     @property
     def number_of_sim(self):
         return self.__number_of_sim
